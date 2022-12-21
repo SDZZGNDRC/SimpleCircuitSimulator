@@ -98,11 +98,11 @@ public class mainGUI extends JFrame
                     state = guiState.Default;
                     System.out.print("Switch to Default State");
                     pcb.ifDrawDashedLines = false;
-                    if(!pcb.netlist.components.lastElement().finished){
+                    if(!pcb.netlist.components.isEmpty() && !pcb.netlist.components.lastElement().finished){
                         pcb.netlist.components.remove(pcb.netlist.components.size()-1);
                     }
                     pcb.repaint();
-                }else if(SwingUtilities.isLeftMouseButton(e)) {
+                }else if(SwingUtilities.isLeftMouseButton(e)) { // 左键被点击
                     if(pcb.netlist.components.isEmpty() || pcb.netlist.components.lastElement().finished){
                         Wire tw = (Wire)pcb.netlist.create(Wire.class);
                         tw.x1 = (e.getX()%pcb.DeltaX>pcb.DeltaX/2) ? e.getX()-e.getX()%pcb.DeltaX+pcb.DeltaX : e.getX()-e.getX()%pcb.DeltaX;

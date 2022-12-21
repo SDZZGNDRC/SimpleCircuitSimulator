@@ -2,7 +2,6 @@ package test;
 
 import org.junit.Test;
 
-import CircuitSim.Component;
 import CircuitSim.I_DC_VS;
 import CircuitSim.NetList;
 import CircuitSim.Resistance;
