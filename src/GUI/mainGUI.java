@@ -1,5 +1,6 @@
 package GUI;
 
+import java.lang.Math;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -144,6 +145,15 @@ public class mainGUI extends JFrame
                     Wire t = (Wire)pcb.netlist.components.lastElement();
                     if(t.finished){
                         break;
+                    }
+                    if(t.XFirst==-1){
+                        if(Math.abs(Math.abs(pcb.DashedLines_X-t.x1)-Math.abs(pcb.DashedLines_Y-t.y1)) > pcb.DeltaX){
+                            t.XFirst = (Math.abs(pcb.DashedLines_X-t.x1)-Math.abs(pcb.DashedLines_Y-t.y1)>pcb.DeltaX) ? 1 : 0;
+                        }
+                        System.out.println("XFirst: "+t.XFirst);
+                    }else if(pcb.DashedLines_X==t.x1&&pcb.DashedLines_Y==t.y1){
+                        t.XFirst = -1;
+                        System.out.println("XFirst: -1");
                     }
                     t.x2 = pcb.DashedLines_X;
                     t.y2 = pcb.DashedLines_Y;

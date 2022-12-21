@@ -6,6 +6,7 @@ public class Wire extends Component {
     public final double U = 0;
     public int x1, y1, x2, y2;
     public Color color = new Color(0x4d, 0x92, 0x3a);
+    public int XFirst = -1; // 有拐角的导线的画法有两种, 先横后竖或先竖后横. -1表示为设置, 0表示后者, 1表示前者
     public Wire(String _name, Integer _Np, Integer _Nm){
         super(_name, _Np, _Nm);
         if(_name.charAt(0)!='W'){

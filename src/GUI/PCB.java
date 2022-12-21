@@ -87,8 +87,17 @@ public class PCB extends JComponent{
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setStroke(new BasicStroke(w.LineWidth));
         g2d.setColor(w.color);
-        g2d.drawLine(w.x1, w.y1, w.x1, w.y2);
-        g2d.drawLine(w.x1, w.y2, w.x2, w.y2);
+        if(w.XFirst==1){
+            g2d.drawLine(w.x1, w.y1, w.x2, w.y1);
+            g2d.drawLine(w.x2, w.y1, w.x2, w.y2);    
+        }else{
+            g2d.drawLine(w.x1, w.y1, w.x1, w.y2);
+            g2d.drawLine(w.x1, w.y2, w.x2, w.y2);
+        }
         g2d.dispose();
+    }
+
+    // 将电路保存为文件
+    public void saveAS(String filepath){
     }
 }
