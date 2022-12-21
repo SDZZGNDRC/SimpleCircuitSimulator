@@ -1,27 +1,14 @@
 package CircuitSim;
 
-import java.util.Vector;
-
-// 独立直流电压源
-public class I_DC_VS extends Node {
-    public I_DC_VS(Integer _id, double _u){
-        super();
-        this.ID = _id;
-        this.U = _u;
-    }
-    public I_DC_VS(Integer _id, Vector<Integer> _nextIDs, double _u){
-        super(_nextIDs);
-        this.ID = _id;
-        this.U = _u;
+public class I_DC_VS extends Component{
+    public I_DC_VS(String _name, Integer _Np, Integer _Nm){
+        super(_name, _Np, _Nm);
+        if(_name.charAt(0)!='V'){
+            throw new IllegalArgumentException("电压源部件的名称第一个字母必须为V");
+        }
     }
     @Override
-    public NodeType getType() {
-        return NodeType.I_DC_VS;
-    }
-    public void setU(double _u) { // 设置电压值
-        this.U = _u;
-    }
-    public void setI(double _i) { // 设置电流值
-        this.I = _i;
+    public String toString() {
+        return new String(name+" "+Np.toString()+" "+Nm.toString()+" "+String.valueOf(U));
     }
 }

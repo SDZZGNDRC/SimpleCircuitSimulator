@@ -1,27 +1,12 @@
+import GUI.mainGUI;
+import CircuitSim.*;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        Son son = new Son();
-        Father father = son;
-        father.getName();
-        son.setName("Son");
-        son.getName();
-        father.getName();
-    }
-}
-
-class Father{
-    protected String name = "Father";
-    public void getName() {
-        System.out.println(this.name);
-    }
-}
-
-class Son extends Father{
-    // @Override
-    // public void getName() {
-    //     System.out.println(this.name);
-    // }
-    public void setName(String s) {
-        name = s;
+        mainGUI gui = new mainGUI();
+        NetList net = new NetList();
+        net.components.add(new I_DC_VS("V1", 1, 0));
+        net.components.add(new Wire("W1", 1, 2));
+        net.components.add(new Resistance("R1", 2, 3));
     }
 }
