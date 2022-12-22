@@ -56,4 +56,21 @@ public class Wire extends Component {
             Integer.toString(XFirst)
         );
     }
+
+    public boolean ifSelect(int _x, int _y){
+        if (XFirst==1) {
+            if(inRect(_x, _y, x1, y1-LineWidth, x2, y1+LineWidth)){
+                return true;
+            }else if(inRect(_x, _y, x2-LineWidth, y1, x2+LineWidth, y2)){
+                return true;
+            }
+        }else{
+            if(inRect(_x, _y, x1-LineWidth, y1, x2+LineWidth, y2)){
+                return true;
+            }else if(inRect(_x, _y, x1, y2-LineWidth, x2, y2+LineWidth)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

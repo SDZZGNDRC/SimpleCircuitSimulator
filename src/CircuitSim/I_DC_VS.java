@@ -3,6 +3,7 @@ package CircuitSim;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
+import java.lang.Math;
 
 public class I_DC_VS extends Component{
     public int x, y;
@@ -23,7 +24,7 @@ public class I_DC_VS extends Component{
     }
 
     // 绘制独立直流电压源
-    public void draw(Graphics g, int DeltaX, int DeltaY){
+    public void draw(Graphics g){
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setStroke(new BasicStroke(this.LineWidth));
         g2d.setColor(this.color);
@@ -32,5 +33,14 @@ public class I_DC_VS extends Component{
         g2d.drawLine(x-2*DeltaX, y, x-4*DeltaX, y);
         g2d.drawLine(x+2*DeltaX, y, x+4*DeltaX, y);
         g2d.dispose();
+    }
+
+    public boolean ifSelect(int _x, int _y){
+        if(
+            (_x-x)*(_x-x)+(_y-y)*(_y-y)<4*DeltaX*DeltaX
+        ){
+            return true;
+        }
+        return false;
     }
 }

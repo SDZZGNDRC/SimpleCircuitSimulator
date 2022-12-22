@@ -60,16 +60,7 @@ public class PCB extends JComponent{
 
         // 绘制部件
         for(Component c : netlist.components){
-            if(c.getClass()==Wire.class){
-                Wire t = (Wire)c;
-                t.draw(g);
-            }else if(c.getClass()==Resistance.class){
-                Resistance t = (Resistance)c;
-                t.draw(g, this.DeltaX, this.DeltaY);
-            }else if(c.getClass()==I_DC_VS.class){
-                I_DC_VS t = (I_DC_VS)c;
-                t.draw(g, this.DeltaX, this.DeltaY);
-            }
+            c.draw(g);
         }
     }
     private void drawGridLines(Graphics g) {

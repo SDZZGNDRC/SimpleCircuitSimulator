@@ -137,6 +137,14 @@ public class mainGUI extends JFrame
     public void mousePressed(MouseEvent e) {
         System.out.println(e.getX()+", "+e.getY());
         switch (state) {
+            case Default:
+                if(SwingUtilities.isLeftMouseButton(e)){ // 左键被点击
+                    Component t = this.selectComponent(e);
+                    if(t==null){
+                        return;
+                    }
+                }
+                break;
             case DrawWire:
                 if(SwingUtilities.isRightMouseButton(e)){ // 右键被点击
                     state = guiState.Default;
@@ -260,5 +268,17 @@ public class mainGUI extends JFrame
     private void updateDashedLines(MouseEvent e){
         pcb.DashedLines_X = (e.getX()%pcb.DeltaX>pcb.DeltaX/2) ? e.getX()-e.getX()%pcb.DeltaX+pcb.DeltaX : e.getX()-e.getX()%pcb.DeltaX;
         pcb.DashedLines_Y = (e.getY()%pcb.DeltaY>pcb.DeltaY/2) ? e.getY()-e.getY()%pcb.DeltaY+pcb.DeltaY : e.getY()-e.getY()%pcb.DeltaY;
+    }
+
+    // 判断鼠标是否选中了某个电路部件, 如果有多个部件符合选中条件, 返回第一个符合的.
+    private Component selectComponent(MouseEvent e){
+        int x = e.getX(), y = e.getY();
+        for (Component i : pcb.netlist.components) {
+            if(i.ifSelect(x, y)){
+                System.out.println(i);
+                return i;
+            }
+        }
+        return null;
     }
 }
