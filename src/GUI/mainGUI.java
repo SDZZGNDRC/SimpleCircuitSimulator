@@ -51,6 +51,8 @@ public class mainGUI extends JFrame
         menuBar.add(menu_File);
         menuBar.add(menu_Sim);
 
+        menuItem_File_Save.addActionListener(this);
+
         setTitle("简易电路仿真器");
         this.setSize(1400,900);
         this.setLocation(100,100);
@@ -76,37 +78,50 @@ public class mainGUI extends JFrame
     }
 
     public void actionPerformed(ActionEvent e){
-        JButton button = (JButton) e.getSource();  
-        shape = button.getActionCommand();   
-        System.out.println("String = " + shape);
-        switch (state) {
-            case Default:
-                if(shape=="导线"){
-                    state = guiState.DrawWire;
-                    System.out.println("Start drawing a wire.");
-                }else if(shape=="电阻"){
-                    state = guiState.DrawResistance;
-                    Resistance tw = (Resistance)pcb.netlist.create(Resistance.class);
-                    tw.x = 0;
-                    tw.y = 0;
-                    pcb.netlist.components.add((Component)tw);
-                    System.out.println("Create a New Resistance");
-                    System.out.println("Start drawing a resistance");
-                }else if(shape=="独立直流电压源"){
-                    state = guiState.DrawIVS;
-                    I_DC_VS tw = (I_DC_VS)pcb.netlist.create(I_DC_VS.class);
-                    tw.x = 0;
-                    tw.y = 0;
-                    pcb.netlist.components.add((Component)tw);
-                    System.out.println("Create a New I_DC_VS");
-                    System.out.println("Start drawing a I_DC_VS");
-                }
-                break;
-            default:
-                break;
+
+        // 菜单处理逻辑
+        if (e.getSource() instanceof JMenuItem) {
+            JMenuItem item = (JMenuItem) e.getSource();
+            shape = item.getActionCommand();
+            System.out.println("String = " + shape);
+            pcb.saveAS("./temp.pcb");
+            return;
         }
-        if(state != guiState.Default){
-            pcb.ifDrawDashedLines = true;
+
+        // 按钮处理逻辑
+        if(e.getSource() instanceof JButton){
+            JButton button = (JButton) e.getSource();  
+            shape = button.getActionCommand();   
+            System.out.println("String = " + shape);
+            switch (state) {
+                case Default:
+                    if(shape=="导线"){
+                        state = guiState.DrawWire;
+                        System.out.println("Start drawing a wire.");
+                    }else if(shape=="电阻"){
+                        state = guiState.DrawResistance;
+                        Resistance tw = (Resistance)pcb.netlist.create(Resistance.class);
+                        tw.x = 0;
+                        tw.y = 0;
+                        pcb.netlist.components.add((Component)tw);
+                        System.out.println("Create a New Resistance");
+                        System.out.println("Start drawing a resistance");
+                    }else if(shape=="独立直流电压源"){
+                        state = guiState.DrawIVS;
+                        I_DC_VS tw = (I_DC_VS)pcb.netlist.create(I_DC_VS.class);
+                        tw.x = 0;
+                        tw.y = 0;
+                        pcb.netlist.components.add((Component)tw);
+                        System.out.println("Create a New I_DC_VS");
+                        System.out.println("Start drawing a I_DC_VS");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if(state != guiState.Default){
+                pcb.ifDrawDashedLines = true;
+            }
         }
     }
     public void mousePressed(MouseEvent e) {

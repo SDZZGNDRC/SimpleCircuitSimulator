@@ -5,8 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
 public class Resistance extends Component{
-    public double R; // 表明电阻阻值, 单位欧姆Ω
+    public double R = 10; // 表明电阻阻值, 单位欧姆Ω
     public int x, y;
+    public boolean Horizon = true;
     public Resistance(String _name, Integer _Np, Integer _Nm){
         super(_name, _Np, _Nm);
         if(_name.charAt(0)!='R'){
@@ -15,7 +16,10 @@ public class Resistance extends Component{
     }
     @Override
     public String toString() {
-        return new String(name+" "+Np.toString()+" "+Nm.toString()+" "+String.valueOf(R));
+        return new String(
+            name+" "+Np.toString()+" "+Nm.toString()+" "+String.valueOf(R)+" "+
+            "# "+Integer.toString(x)+","+Integer.toString(y)+";"+Boolean.toString(Horizon)
+        );
     }
 
     // 绘制电阻

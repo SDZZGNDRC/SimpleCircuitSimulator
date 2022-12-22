@@ -8,6 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JComponent;
 
 public class PCB extends JComponent{
@@ -91,5 +94,17 @@ public class PCB extends JComponent{
 
     // 将电路保存为文件
     public void saveAS(String filepath){
+        String content = new String();
+        for(Component i : netlist.components){
+            content = content.concat(i.toString()+"\n");
+        }
+        try {
+            FileWriter  file = new FileWriter (filepath);
+            file.write(content);
+            file.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }

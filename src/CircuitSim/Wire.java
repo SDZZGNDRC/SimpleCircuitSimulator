@@ -47,4 +47,13 @@ public class Wire extends Component {
         }
         g2d.dispose();
     }
+    @Override
+    public String toString() {
+        return new String(
+            name+" "+Np.toString()+" "+Nm.toString()+" "+
+            "# "+Integer.toString(x1)+","+Integer.toString(y1)+","+
+            Integer.toString(x2)+","+Integer.toString(y2)+";"+
+            Integer.toString(XFirst)
+        );
+    }
 }

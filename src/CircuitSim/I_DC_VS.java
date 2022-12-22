@@ -6,7 +6,8 @@ import java.awt.BasicStroke;
 
 public class I_DC_VS extends Component{
     public int x, y;
-
+    public double U = 10; // 电压, 单位V
+    public boolean Horizon = true;
     public I_DC_VS(String _name, Integer _Np, Integer _Nm){
         super(_name, _Np, _Nm);
         if(_name.charAt(0)!='V'){
@@ -15,7 +16,10 @@ public class I_DC_VS extends Component{
     }
     @Override
     public String toString() {
-        return new String(name+" "+Np.toString()+" "+Nm.toString()+" "+String.valueOf(U));
+        return new String(
+            name+" "+Np.toString()+" "+Nm.toString()+" "+String.valueOf(U)+" "+
+            "# "+Integer.toString(x)+","+Integer.toString(y)+";"+Boolean.toString(Horizon)
+        );
     }
 
     // 绘制独立直流电压源
