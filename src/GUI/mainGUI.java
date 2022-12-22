@@ -84,7 +84,17 @@ public class mainGUI extends JFrame
             JMenuItem item = (JMenuItem) e.getSource();
             shape = item.getActionCommand();
             System.out.println("String = " + shape);
-            pcb.saveAS("./temp.pcb");
+            if (shape=="保存文件") {
+                FileDialog fd = new FileDialog(this, "请选择保存的位置", FileDialog.LOAD);
+                fd.setDirectory("C:\\");
+                fd.setFile("电路.pcb");
+                fd.setVisible(true);
+                if (fd.getFile() == null){
+                    return;
+                }else{
+                    pcb.saveAS(fd.getDirectory()+fd.getFile());
+                }
+            }
             return;
         }
 
