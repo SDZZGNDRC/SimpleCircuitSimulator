@@ -59,7 +59,13 @@ public class PCB extends JComponent{
         for(Component c : netlist.components){
             if(c.getClass()==Wire.class){
                 Wire t = (Wire)c;
-                this.drawWire(g, t);
+                t.draw(g);
+            }else if(c.getClass()==Resistance.class){
+                Resistance t = (Resistance)c;
+                t.draw(g, this.DeltaX, this.DeltaY);
+            }else if(c.getClass()==I_DC_VS.class){
+                I_DC_VS t = (I_DC_VS)c;
+                t.draw(g, this.DeltaX, this.DeltaY);
             }
         }
     }
@@ -82,20 +88,6 @@ public class PCB extends JComponent{
         g2d.dispose();
     }
 
-    // 绘制一条导线
-    private void drawWire(Graphics g, Wire w){
-        Graphics2D g2d = (Graphics2D)g.create();
-        g2d.setStroke(new BasicStroke(w.LineWidth));
-        g2d.setColor(w.color);
-        if(w.XFirst==1){
-            g2d.drawLine(w.x1, w.y1, w.x2, w.y1);
-            g2d.drawLine(w.x2, w.y1, w.x2, w.y2);    
-        }else{
-            g2d.drawLine(w.x1, w.y1, w.x1, w.y2);
-            g2d.drawLine(w.x1, w.y2, w.x2, w.y2);
-        }
-        g2d.dispose();
-    }
 
     // 将电路保存为文件
     public void saveAS(String filepath){

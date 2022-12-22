@@ -1,6 +1,9 @@
 package CircuitSim;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 
 public class Wire extends Component {
     public final double U = 0;
@@ -28,5 +31,20 @@ public class Wire extends Component {
     public void setLocal(int _x1, int _y1, int _x2, int _y2){
         x1 = _x1; y1 = _y1;
         x2 = _x2; y2 = _y2;
+    }
+
+    // 绘制导线
+    public void draw(Graphics g){
+        Graphics2D g2d = (Graphics2D)g.create();
+        g2d.setStroke(new BasicStroke(this.LineWidth));
+        g2d.setColor(this.color);
+        if(this.XFirst==1){
+            g2d.drawLine(this.x1, this.y1, this.x2, this.y1);
+            g2d.drawLine(this.x2, this.y1, this.x2, this.y2);    
+        }else{
+            g2d.drawLine(this.x1, this.y1, this.x1, this.y2);
+            g2d.drawLine(this.x1, this.y2, this.x2, this.y2);
+        }
+        g2d.dispose();
     }
 }

@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import CircuitSim.Wire;
+import CircuitSim.Resistance;
 import CircuitSim.Component;
+import CircuitSim.I_DC_VS;
 
 
 // 创建图形界面
@@ -29,6 +31,7 @@ public class mainGUI extends JFrame
         pcb = new PCB();
         // pcb.add(new Wire("W1", 0, 1, 10, 10, 100, 100));
         // pcb.netlist.components.lastElement().finished = true;
+
         // 创建菜单栏
         menuBar = new JMenuBar();
         menu_File = new JMenu("文件");
@@ -81,6 +84,22 @@ public class mainGUI extends JFrame
                 if(shape=="导线"){
                     state = guiState.DrawWire;
                     System.out.println("Start drawing a wire.");
+                }else if(shape=="电阻"){
+                    state = guiState.DrawResistance;
+                    Resistance tw = (Resistance)pcb.netlist.create(Resistance.class);
+                    tw.x = 0;
+                    tw.y = 0;
+                    pcb.netlist.components.add((Component)tw);
+                    System.out.println("Create a New Resistance");
+                    System.out.println("Start drawing a resistance");
+                }else if(shape=="独立直流电压源"){
+                    state = guiState.DrawIVS;
+                    I_DC_VS tw = (I_DC_VS)pcb.netlist.create(I_DC_VS.class);
+                    tw.x = 0;
+                    tw.y = 0;
+                    pcb.netlist.components.add((Component)tw);
+                    System.out.println("Create a New I_DC_VS");
+                    System.out.println("Start drawing a I_DC_VS");
                 }
                 break;
             default:
@@ -115,6 +134,40 @@ public class mainGUI extends JFrame
                     }
                 }
                 break;
+            case DrawResistance:
+                if(SwingUtilities.isRightMouseButton(e)){ // 右键被点击
+                    state = guiState.Default;
+                    System.out.print("Switch to Default State");
+                    pcb.ifDrawDashedLines = false;
+                    if(!pcb.netlist.components.isEmpty() && !pcb.netlist.components.lastElement().finished){
+                        pcb.netlist.components.remove(pcb.netlist.components.size()-1);
+                    }
+                    pcb.repaint();
+                }else if(SwingUtilities.isLeftMouseButton(e)) { // 左键被点击
+                    pcb.netlist.components.lastElement().finished = true;
+                    Resistance tw = (Resistance)pcb.netlist.create(Resistance.class);
+                    tw.x = pcb.DashedLines_X;
+                    tw.y = pcb.DashedLines_Y;
+                    pcb.netlist.components.add((Component)tw);
+                }
+                break;
+            case DrawIVS:
+                if(SwingUtilities.isRightMouseButton(e)){ // 右键被点击
+                    state = guiState.Default;
+                    System.out.print("Switch to Default State");
+                    pcb.ifDrawDashedLines = false;
+                    if(!pcb.netlist.components.isEmpty() && !pcb.netlist.components.lastElement().finished){
+                        pcb.netlist.components.remove(pcb.netlist.components.size()-1);
+                    }
+                    pcb.repaint();
+                }else if(SwingUtilities.isLeftMouseButton(e)) { // 左键被点击
+                    pcb.netlist.components.lastElement().finished = true;
+                    I_DC_VS tw = (I_DC_VS)pcb.netlist.create(I_DC_VS.class);
+                    tw.x = pcb.DashedLines_X;
+                    tw.y = pcb.DashedLines_Y;
+                    pcb.netlist.components.add((Component)tw);
+                }
+                break;
             default:
                 break;
         }
@@ -136,30 +189,43 @@ public class mainGUI extends JFrame
     }
     // 当鼠标光标移动到组件上但没有按钮被按下时调用
     public void mouseMoved(MouseEvent e) {
+        updateDashedLines(e);
         switch (state) {
             case DrawWire:
-                updateDashedLines(e);
-
                 // 更新导线
-                if(!pcb.netlist.components.isEmpty()){
+                if(!pcb.netlist.components.isEmpty() && !pcb.netlist.components.lastElement().finished){
                     Wire t = (Wire)pcb.netlist.components.lastElement();
-                    if(t.finished){
-                        break;
-                    }
                     if(t.XFirst==-1){
                         if(Math.abs(Math.abs(pcb.DashedLines_X-t.x1)-Math.abs(pcb.DashedLines_Y-t.y1)) > pcb.DeltaX){
                             t.XFirst = (Math.abs(pcb.DashedLines_X-t.x1)-Math.abs(pcb.DashedLines_Y-t.y1)>pcb.DeltaX) ? 1 : 0;
                         }
-                        System.out.println("XFirst: "+t.XFirst);
                     }else if(pcb.DashedLines_X==t.x1&&pcb.DashedLines_Y==t.y1){
                         t.XFirst = -1;
-                        System.out.println("XFirst: -1");
                     }
                     t.x2 = pcb.DashedLines_X;
                     t.y2 = pcb.DashedLines_Y;
                 }
                 break;
-        
+            case DrawResistance:
+                // 更新电阻
+                if(!pcb.netlist.components.isEmpty()){
+                    Resistance t = (Resistance)pcb.netlist.components.lastElement();
+                    if(t.finished){
+                        break;
+                    }
+                    t.x = pcb.DashedLines_X; t.y = pcb.DashedLines_Y;
+                }
+                break;
+            case DrawIVS:
+                // 更新独立直流电压源
+                if(!pcb.netlist.components.isEmpty()){
+                    I_DC_VS t = (I_DC_VS)pcb.netlist.components.lastElement();
+                    if(t.finished){
+                        break;
+                    }
+                    t.x = pcb.DashedLines_X; t.y = pcb.DashedLines_Y;
+                }
+                break;
             default:
                 break;
         }
