@@ -1,5 +1,6 @@
 package CircuitSim;
 
+import java.awt.Point;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -72,5 +73,15 @@ public class Wire extends Component {
             }
         }
         return false;
+    }
+
+    // 获取节点Np的坐标
+    public Point getNp(){
+        return new Point(x1, y1);
+    }
+
+    // 获取节点Nm的坐标
+    public Point getNm(){
+        return new Point(x2, y2);
     }
 }

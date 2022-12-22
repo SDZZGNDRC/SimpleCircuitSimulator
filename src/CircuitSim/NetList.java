@@ -1,6 +1,7 @@
 package CircuitSim;
 
 import java.util.Vector;
+import java.awt.Point;
 
 public class NetList {
     public Vector<Component> components;
@@ -77,5 +78,45 @@ public class NetList {
         }
         return false;
     }
+
+    // 由于创建电路部件时, 各部件的节点编号都是不一致的
+    // 而我们把电路部件放置到电路中后, 某些部件可能会出现节点重叠的情况, 
+    // 我们需要把重叠的节点赋予同一个编号
+    public void rebuild(){
+        Vector<Component> t;
+        for (Component c : components) {
+            System.out.println("c: "+c);
+            t = getOverlapComponent(c.getNm());
+            if (!t.isEmpty()) {
+                for (Component c2 : t) {
+                    if(c==c2){
+                        System.out.println("Skip: "+c);
+                        continue;
+                    }
+                    if(c2.getNp().equals(c.getNp())){
+                        c2.Np = (c2.Np != c.Np) ? c.Np : c2.Np;
+                    }else if(c2.getNp().equals(c.getNm())){
+                        c2.Np = (c2.Np != c.Nm) ? c.Nm : c2.Np;
+                    }
+                    if(c2.getNm().equals(c.getNp())){
+                        c2.Nm = (c2.Nm != c.Np) ? c.Np : c2.Nm;
+                    }else if(c2.getNm().equals(c.getNm())){
+                        c2.Nm = (c2.Nm != c.Nm) ? c.Nm : c2.Nm;
+                    }
+                    
+                }
+            }
+        }
+    }
     
+    // 返回重叠的部件
+    public Vector<Component> getOverlapComponent(Point _p){
+        Vector<Component> cs = new Vector<Component>();
+        for (Component component : components) {
+            if(component.getNm().equals(_p) || component.getNp().equals(_p)){
+                cs.add(component);
+            }
+        }
+        return cs;
+    }
 }

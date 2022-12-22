@@ -173,6 +173,7 @@ public class mainGUI extends JFrame
                         pcb.netlist.components.add((Component)tw);
                         System.out.println("Create a New Wire");
                     }else{
+                        pcb.netlist.rebuild();
                         pcb.netlist.components.lastElement().finished = true;
                     }
                 }
@@ -187,6 +188,7 @@ public class mainGUI extends JFrame
                     }
                     pcb.repaint();
                 }else if(SwingUtilities.isLeftMouseButton(e)) { // 左键被点击
+                    pcb.netlist.rebuild();
                     pcb.netlist.components.lastElement().finished = true;
                     Resistance tw = (Resistance)pcb.netlist.create(Resistance.class);
                     tw.x = pcb.DashedLines_X;
@@ -204,6 +206,7 @@ public class mainGUI extends JFrame
                     }
                     pcb.repaint();
                 }else if(SwingUtilities.isLeftMouseButton(e)) { // 左键被点击
+                    pcb.netlist.rebuild();
                     pcb.netlist.components.lastElement().finished = true;
                     I_DC_VS tw = (I_DC_VS)pcb.netlist.create(I_DC_VS.class);
                     tw.x = pcb.DashedLines_X;

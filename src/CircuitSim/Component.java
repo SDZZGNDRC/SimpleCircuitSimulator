@@ -2,6 +2,7 @@ package CircuitSim;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Component {
     public String name;
@@ -37,6 +38,15 @@ public class Component {
     }
 
     public void draw(Graphics g){
+    }
 
+    // 获取节点Np的坐标
+    public Point getNp(){
+        return null;
+    }
+
+    // 获取节点Nm的坐标
+    public Point getNm(){
+        return null;
     }
 }

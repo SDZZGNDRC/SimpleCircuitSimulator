@@ -1,5 +1,6 @@
 package CircuitSim;
 
+import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
@@ -38,5 +39,15 @@ public class Resistance extends Component{
             return true;
         }
         return false;
+    }
+
+    // 获取节点Np的坐标
+    public Point getNp(){
+        return new Point(x-4*DeltaX, y);
+    }
+
+    // 获取节点Nm的坐标
+    public Point getNm(){
+        return new Point(x+4*DeltaX, y);
     }
 }
