@@ -28,6 +28,18 @@ public class Wire extends Component {
         this.x2 = _x2; this.y2 = _y2;
     }
 
+    public Wire(String _name, Integer _Np, Integer _Nm,
+                int _x1, int _y1, int _x2, int _y2, int _XFirst
+    ){
+        super(_name, _Np, _Nm);
+        if(_name.charAt(0)!='W'){
+            throw new IllegalArgumentException("导线部件的名称第一个字母必须为W");
+        }
+        this.x1 = _x1; this.y1 = _y1;
+        this.x2 = _x2; this.y2 = _y2;
+        this.XFirst = _XFirst;
+    }
+
     // 设置导线的位置
     public void setLocal(int _x1, int _y1, int _x2, int _y2){
         x1 = _x1; y1 = _y1;

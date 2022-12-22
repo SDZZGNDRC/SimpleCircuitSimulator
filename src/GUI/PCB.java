@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Vector;
 import java.io.IOException;
 
 import javax.swing.JComponent;
@@ -106,16 +107,61 @@ public class PCB extends JComponent{
 
     // 读取电路文件(当前已有的电路将被丢弃掉)
     public void readFile(String filepath){
-        String content = new String();
+        Vector<Component> newComponents = new Vector<Component>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(filepath));
             for (String s : lines) {
-                content = content.concat(s+"\n");
+                String[] param1 = s.split("#")[0].split(" ");
+                String[] param2 = s.split("#")[1].substring(1).split("[,;]");
+                switch (s.charAt(0)) {
+                    case 'W': // 解码导线
+                        newComponents.add(new Wire(
+                            param1[0], 
+                            Integer.parseInt(param1[1]),
+                            Integer.parseInt(param1[2]),
+                            Integer.parseInt(param2[0]),
+                            Integer.parseInt(param2[1]),
+                            Integer.parseInt(param2[2]),
+                            Integer.parseInt(param2[3]),
+                            Integer.parseInt(param2[4])
+                        ));
+                        Wire w = (Wire)newComponents.lastElement();
+                        w.finished = true;
+                        break;
+                    case 'R':
+                        newComponents.add(new Resistance(
+                            param1[0],
+                            Integer.parseInt(param1[1]),
+                            Integer.parseInt(param1[2])
+                        ));
+                        Resistance r = (Resistance)newComponents.lastElement();
+                        r.R = Double.parseDouble(param1[3]);
+                        r.x = Integer.parseInt(param2[0]);
+                        r.y = Integer.parseInt(param2[1]);
+                        r.Horizon = Boolean.parseBoolean(param2[2]);
+                        r.finished = true;
+                        break;
+                    case 'V':
+                        newComponents.add(new I_DC_VS(
+                            param1[0],
+                            Integer.parseInt(param1[1]),
+                            Integer.parseInt(param1[2])
+                        ));
+                        I_DC_VS v = (I_DC_VS)newComponents.lastElement();
+                        v.U = Double.parseDouble(param1[3]);
+                        v.x = Integer.parseInt(param2[0]);
+                        v.y = Integer.parseInt(param2[1]);
+                        v.Horizon = Boolean.parseBoolean(param2[2]);
+                        v.finished = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println(content);
-        // this.clear();
+        this.netlist.components = newComponents;
+        repaint();
     }
 }

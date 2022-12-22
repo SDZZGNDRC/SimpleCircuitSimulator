@@ -53,6 +53,7 @@ public class mainGUI extends JFrame
 
         menuItem_File_Open.addActionListener(this);
         menuItem_File_Save.addActionListener(this);
+        menuItem_Sim_Clear.addActionListener(this);
 
         setTitle("简易电路仿真器");
         this.setSize(1400,900);
@@ -104,6 +105,10 @@ public class mainGUI extends JFrame
                 }else{
                     pcb.readFile(fd.getDirectory()+fd.getFile());
                 }
+                repaint();
+            }else if(shape=="清空"){
+                pcb.clear();
+                repaint();
             }
             return;
         }

@@ -103,7 +103,6 @@ public class NetList {
                     }else if(c2.getNm().equals(c.getNm())){
                         c2.Nm = (c2.Nm != c.Nm) ? c.Nm : c2.Nm;
                     }
-                    
                 }
             }
         }
