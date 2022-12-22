@@ -9,6 +9,9 @@ import java.awt.Stroke;
 import java.awt.BasicStroke;
 
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.io.IOException;
 
 import javax.swing.JComponent;
@@ -38,6 +41,8 @@ public class PCB extends JComponent{
         netlist.components.add(_c);
         repaint();
     }
+
+    // 清空所有电路部件
     public void clear(){
         netlist.components.clear();
         repaint();
@@ -97,5 +102,20 @@ public class PCB extends JComponent{
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    // 读取电路文件(当前已有的电路将被丢弃掉)
+    public void readFile(String filepath){
+        String content = new String();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filepath));
+            for (String s : lines) {
+                content = content.concat(s+"\n");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        System.out.println(content);
+        // this.clear();
     }
 }

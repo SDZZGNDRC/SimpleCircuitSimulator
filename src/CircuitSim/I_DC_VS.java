@@ -3,7 +3,6 @@ package CircuitSim;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
-import java.lang.Math;
 
 public class I_DC_VS extends Component{
     public int x, y;

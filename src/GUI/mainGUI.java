@@ -51,6 +51,7 @@ public class mainGUI extends JFrame
         menuBar.add(menu_File);
         menuBar.add(menu_Sim);
 
+        menuItem_File_Open.addActionListener(this);
         menuItem_File_Save.addActionListener(this);
 
         setTitle("简易电路仿真器");
@@ -85,7 +86,7 @@ public class mainGUI extends JFrame
             shape = item.getActionCommand();
             System.out.println("String = " + shape);
             if (shape=="保存文件") {
-                FileDialog fd = new FileDialog(this, "请选择保存的位置", FileDialog.LOAD);
+                FileDialog fd = new FileDialog(this, "请选择保存的位置", FileDialog.SAVE);
                 fd.setDirectory("C:\\");
                 fd.setFile("电路.pcb");
                 fd.setVisible(true);
@@ -93,6 +94,15 @@ public class mainGUI extends JFrame
                     return;
                 }else{
                     pcb.saveAS(fd.getDirectory()+fd.getFile());
+                }
+            }else if(shape=="打开文件"){
+                FileDialog fd = new FileDialog(this, "请选中文件位置", FileDialog.LOAD);
+                fd.setDirectory("C:\\");
+                fd.setVisible(true);
+                if(fd.getFile()==null){
+                    return;
+                }else{
+                    pcb.readFile(fd.getDirectory()+fd.getFile());
                 }
             }
             return;
