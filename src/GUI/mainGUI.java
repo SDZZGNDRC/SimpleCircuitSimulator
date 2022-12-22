@@ -18,6 +18,7 @@ public class mainGUI extends JFrame
     Color color;
     JPanel p0;
     PCB pcb;
+    ComState comState;
     String shape;
     JMenuBar menuBar;
     JMenu menu_File, menu_Sim;
@@ -29,8 +30,8 @@ public class mainGUI extends JFrame
         state = guiState.Default;
         p0 = new JPanel();
         pcb = new PCB();
-        // pcb.add(new Wire("W1", 0, 1, 10, 10, 100, 100));
-        // pcb.netlist.components.lastElement().finished = true;
+        comState = new ComState();
+        comState.setVisible(false);
 
         // 创建菜单栏
         menuBar = new JMenuBar();
@@ -69,8 +70,10 @@ public class mainGUI extends JFrame
             p0.add(button);
         }
         menuBar.setOpaque(true);
+        this.setLayout(new BorderLayout());
         this.add(p0,BorderLayout.LINE_START);
         this.add(pcb,BorderLayout.CENTER);
+        this.add(comState,BorderLayout.PAGE_END);
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         this.setVisible(true);
@@ -158,6 +161,10 @@ public class mainGUI extends JFrame
                     if(t==null){
                         return;
                     }
+                    state = guiState.Select;
+                    System.out.println("Switch to Select State");
+                    comState.setContent(t);
+                    comState.setVisible(true);
                 }
                 break;
             case DrawWire:
@@ -217,6 +224,23 @@ public class mainGUI extends JFrame
                     tw.x = pcb.DashedLines_X;
                     tw.y = pcb.DashedLines_Y;
                     pcb.netlist.components.add((Component)tw);
+                }
+                break;
+            case Select:
+
+                if(SwingUtilities.isLeftMouseButton(e)){ // 左键被点击
+                    Component t = this.selectComponent(e);
+                    if(t==null){
+                        state = guiState.Default;
+                        comState.setVisible(false);
+                        return;
+                    }
+                    comState.setVisible(false);
+                    comState.setContent(t);
+                    comState.setVisible(true);
+                }else{
+                    state = guiState.Default;
+                    comState.setVisible(false);
                 }
                 break;
             default:

@@ -18,6 +18,8 @@ public class Component {
         this.name = _name;
         this.Np = _Np;
         this.Nm = _Nm;
+        this.U = 0;
+        this.I = 0;
         color = Color.BLACK;
         finished = false;
     }
