@@ -32,6 +32,9 @@ public class I_DC_VS extends Component{
         g2d.drawLine(x, y-2*DeltaY, x, y+2*DeltaY);
         g2d.drawLine(x-2*DeltaX, y, x-4*DeltaX, y);
         g2d.drawLine(x+2*DeltaX, y, x+4*DeltaX, y);
+        g2d.drawLine(x+4*DeltaX-3, y-2*DeltaY, x+4*DeltaX+3, y-2*DeltaY);
+        g2d.drawLine(x+4*DeltaX, y-2*DeltaY-3, x+4*DeltaX, y-2*DeltaY+3);
+        g2d.drawLine(x-4*DeltaX-3, y-2*DeltaY, x-4*DeltaX+3, y-2*DeltaY);
         g2d.dispose();
     }
 
@@ -46,11 +49,11 @@ public class I_DC_VS extends Component{
 
     // 获取节点Np的坐标
     public Point getNp(){
-        return new Point(x-4*DeltaX, y);
+        return new Point(x+4*DeltaX, y);
     }
 
     // 获取节点Nm的坐标
     public Point getNm(){
-        return new Point(x+4*DeltaX, y);
+        return new Point(x-4*DeltaX, y);
     }
 }

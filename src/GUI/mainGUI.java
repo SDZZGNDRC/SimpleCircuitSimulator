@@ -111,6 +111,7 @@ public class mainGUI extends JFrame
                 repaint();
             }else if(shape=="清空"){
                 pcb.clear();
+                comState.setVisible(false);
                 repaint();
             }
             return;

@@ -20,8 +20,8 @@ public class NetList {
     // 在保证名字, 编号等参数不重复的情况下创建新的部件
     public Component create(Class<?> c){
         try {
-            int Np = getNextNode();
-            int Nm = getNextNode(Np+1);
+            int Nm = getNextNode();
+            int Np = getNextNode(Nm+1);
             if(c==Wire.class){ // 创建新的导线
                 return new Wire("W"+Integer.toString(getNextNameID('W')),Np, Nm);
             }else if(c==Resistance.class){ // 创建新的电阻
@@ -87,10 +87,10 @@ public class NetList {
         for (Component c : components) {
             System.out.println("c: "+c);
             t = getOverlapComponent(c.getNm());
+            t.addAll(getOverlapComponent(c.getNp()));
             if (!t.isEmpty()) {
                 for (Component c2 : t) {
                     if(c==c2){
-                        System.out.println("Skip: "+c);
                         continue;
                     }
                     if(c2.getNp().equals(c.getNp())){

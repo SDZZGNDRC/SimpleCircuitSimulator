@@ -1,10 +1,13 @@
 from lcapy import Circuit
 
 a = Circuit("""
-V 1 0 7
-R1 1 2 2
-R2 2 0_2 4
-W 0 0_2""")
+V0 0 1 10.0 
+W0 1 3 
+R0 3 4 10.0
+W1 4 5
+W2 5 6
+W3 6 7
+""")
 
 if __name__ == "__main__":
     print(a.R1.v, a.R1.i)
