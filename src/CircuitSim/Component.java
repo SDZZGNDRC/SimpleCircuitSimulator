@@ -51,4 +51,14 @@ public class Component {
     public Point getNm(){
         return null;
     }
+
+    // 加载仿真结果
+    public void loadSimResult(String result){
+        String[] param = result.split(" ");
+        if(this.name.equals(param[0])){
+            this.U = Double.parseDouble(param[1]);
+            this.I = Double.parseDouble(param[2]);
+            System.out.println(this.name+": "+Double.toString(U)+", "+Double.toString(I));
+        }
+    }
 }

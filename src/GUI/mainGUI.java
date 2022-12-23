@@ -7,6 +7,7 @@ import java.awt.event.*;
 
 import CircuitSim.Wire;
 import CircuitSim.Resistance;
+import CircuitSim.CircuitSim;
 import CircuitSim.Component;
 import CircuitSim.I_DC_VS;
 
@@ -54,6 +55,7 @@ public class mainGUI extends JFrame
 
         menuItem_File_Open.addActionListener(this);
         menuItem_File_Save.addActionListener(this);
+        menuItem_Sim_Start.addActionListener(this);
         menuItem_Sim_Clear.addActionListener(this);
 
         setTitle("简易电路仿真器");
@@ -113,6 +115,13 @@ public class mainGUI extends JFrame
                 pcb.clear();
                 comState.setVisible(false);
                 repaint();
+            }else if(shape=="开始仿真"){
+                CircuitSim circuitsim = new CircuitSim();
+                circuitsim.netlist = pcb.saveStr();
+                String result = circuitsim.getResult();
+                System.out.println(result);
+                pcb.LoadSimResult(result);
+                JOptionPane.showMessageDialog(this, "仿真结束", "通知", JOptionPane.INFORMATION_MESSAGE);
             }
             return;
         }

@@ -91,10 +91,7 @@ public class PCB extends JComponent{
 
     // 将电路保存为文件
     public void saveAS(String filepath){
-        String content = new String();
-        for(Component i : netlist.components){
-            content = content.concat(i.toString()+"\n");
-        }
+        String content = saveStr();
         try {
             FileWriter  file = new FileWriter (filepath);
             file.write(content);
@@ -103,6 +100,15 @@ public class PCB extends JComponent{
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    // 将电路保存为字符串
+    public String saveStr(){
+        String content = new String();
+        for(Component i : netlist.components){
+            content = content.concat(i.toString()+"\n");
+        }
+        return content;
     }
 
     // 读取电路文件(当前已有的电路将被丢弃掉)
@@ -163,5 +169,19 @@ public class PCB extends JComponent{
         }
         this.netlist.components = newComponents;
         repaint();
+    }
+
+    // 加载仿真结果
+    public void LoadSimResult(String result){
+        String[] lines = result.split("\n");
+        for (String string : lines) {
+            String[] param = string.split(" ");
+            for (Component c : netlist.components) {
+                if(c.name.equals(param[0])){
+                    c.loadSimResult(string);
+                    break;
+                }
+            }
+        }
     }
 }
